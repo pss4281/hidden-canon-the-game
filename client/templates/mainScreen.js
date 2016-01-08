@@ -34,14 +34,35 @@ Template.mainScreen.onRendered(function(){
     color: "#ccc"
   });
 
-  var arcAnim = Raphael.animation({transform: "r360 300 300"}, 2500).repeat(Infinity);
+  var arcAnim = Raphael.animation({transform: "r360 300 300"}, 1500).repeat(Infinity);
   arc.animate(arcAnim);
 
 
-  var canonCircle = r.circle(300, 300, 10)
+  var canonCircle = r.circle(300, 300, 10);
 
-  var canonPointer = r.path(`M290,290 L300,280 L310,290 L290,290`); // canon sight in a form of triangle
+  var canonPointer = r.path(`M290,290 L300,280 L310,290`); // canon sight in a form of triangle
   var canonPointerAnim = Raphael.animation({transform: "r-360 300 300"}, 2500).repeat(Infinity);
   canonPointer.animate(canonPointerAnim);
+
+
+  function shoot(angle){
+    var bullet = canonCircle.clone();
+    var a = (90 - angle) * Math.PI / 180;
+    var moveTo = {
+      y: -1 * Math.sin(a) * 600,
+      x: Math.cos(a) * 600
+    }
+    bullet.animate({transform: [`T${ moveTo.x },${ moveTo.y }`]}, "500", ">")
+  }
+
+
+  $(window).keypress(function (e) {
+    if (e.keyCode === 0 || e.keyCode === 32) {
+      e.preventDefault()
+      var angleMatch = canonPointer.transform().match(/r([-0-9\.]{1,})\,/);
+      var angle = (angleMatch == null) ? "0" : angleMatch[1];
+      shoot(angle);
+    }
+  })
 
 });
