@@ -32,4 +32,15 @@ Level1 = class Level1 extends BaseLevel{
     arc.animate(arcAnim);
   }
 
+  trackCollisions(bullet){
+    var self = this;
+    bullet.onAnimation(function(){
+      var attrs = bullet.attrs;
+      coords = {x: attrs.cx + attrs.transform[0][1], y: attrs.cy + attrs.transform[0][2]}
+      var elm = self.game.r.getElementByPoint(coords.x, coords.y);
+      if(elm !== null)
+        console.log( "Collision detected!" )
+    })
+  }
+
 }

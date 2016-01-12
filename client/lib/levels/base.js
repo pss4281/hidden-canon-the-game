@@ -5,4 +5,6 @@ BaseLevel = class BaseLevel{
   }
 
   setup(){}
+
+  trackCollisions(bullet){}
 }

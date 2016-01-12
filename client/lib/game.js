@@ -1,6 +1,6 @@
 Game = class Game{
   run(level){
-    new level(this);
+    this.level = new level(this);
   }
 
   constructor(){
@@ -17,7 +17,11 @@ Game = class Game{
       y: -1 * Math.sin(a) * 600,
       x: Math.cos(a) * 600
     }
-    bullet.animate({transform: [`T${ moveTo.x },${ moveTo.y }`]}, "500", ">")
+    bullet.animate({transform: [`T${ moveTo.x },${ moveTo.y }`]}, "500", ">", function(){
+      console.log("bullet animation is done")
+    });
+
+    this.level.trackCollisions(bullet);
   }
 
   getRotationAngle(obj){
